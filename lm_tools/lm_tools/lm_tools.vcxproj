@@ -27,6 +27,9 @@
   <ItemGroup>
     <ClInclude Include="one.h" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\readme.md" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
