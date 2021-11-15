@@ -3,3 +3,7 @@
 ################################################################################
 
 /lm_tools/Debug
+/lm_tools/.vs/lm_tools/v17
+/lm_tools/lm_tools/Debug
+*.filters
+*.user
