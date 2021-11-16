@@ -1,7 +1,3 @@
-// @Author: y11en 
-// @date: 2021/11/15
-
-
 #include <tchar.h>
 
 #define _WIN32_DCOM
@@ -231,7 +227,7 @@ int WmiExecImp(const wchar_t* host,
             hres = pClassInstance->Put(L"CommandLine", 0, &varCommand, 0);
 
             //
-            // 执行方法
+            // 脰麓脨脨路陆路篓
             //
             hres = pSvc->ExecMethod(bstrClassName,
                 bstrMethodName,
