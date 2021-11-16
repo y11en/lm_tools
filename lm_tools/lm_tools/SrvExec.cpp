@@ -1,7 +1,3 @@
-// @Author: y11en 
-// @date: 2021/11/15
-
-
 #include <Windows.h>
 #include "one.h"
 
@@ -46,11 +42,11 @@ int SrvExecImp(const char* host, const char* domain,
 
     if (!bResult) goto _Exit;
 
-    // 2.  Ä£Äâµ±Ç°µÇÂ¼ÓÃ»§µÄtoken
+    // 2.  æ¨¡æ‹Ÿå½“å‰ç™»å½•ç”¨æˆ·çš„token
     bResult = ImpersonateLoggedOnUser(hToken);
     if (!bResult) goto _Exit;
 
-    // 3. ´ò¿ªÔ¶³Ì·şÎñ¹ÜÀíÆ÷
+    // 3. æ‰“å¼€è¿œç¨‹æœåŠ¡ç®¡ç†å™¨
     schManager = OpenSCManagerA(host, NULL, SC_MANAGER_ALL_ACCESS);
     if (schManager == NULL) goto _Exit;
 
@@ -61,7 +57,7 @@ int SrvExecImp(const char* host, const char* domain,
 
     // printf("SC_HANDLE Service 0x%p\n", schService);
 
-    // 5. ²éÑ¯
+    // 5. æŸ¥è¯¢
     QueryServiceConfigA(schService, NULL, 0, &dwSize);
     if (dwSize <= 0) goto _Exit;
 
@@ -69,7 +65,7 @@ int SrvExecImp(const char* host, const char* domain,
     dwLpqscSize = dwSize;
 
 
-    // 6. È¡³öÔ­Ê¼Â·¾¶
+    // 6. å–å‡ºåŸå§‹è·¯å¾„
     // printf("LPQUERY_SERVICE_CONFIGA need 0x%08x bytes\n", dwLpqscSize);
     lpqsc = (LPQUERY_SERVICE_CONFIGA)GlobalAlloc(GPTR, dwSize);
     if (!lpqsc) goto _Exit;
@@ -81,18 +77,18 @@ int SrvExecImp(const char* host, const char* domain,
     originalBinaryPath = lpqsc->lpBinaryPathName;
     // printf("Original service binary path \"%s\"\n", originalBinaryPath);
 
-    // 7. ¸Ä±äÂ·¾¶
+    // 7. æ”¹å˜è·¯å¾„
     bResult = ChangeServiceConfigA(schService, SERVICE_NO_CHANGE, SERVICE_DEMAND_START, SERVICE_ERROR_IGNORE, payload, NULL, NULL, NULL, NULL, NULL, NULL);
     if (!bResult) goto _Exit;
 
     // printf("Service path was changed to \"%s\"\n", payload);
 
-    // 8. Æô¶¯·şÎñ
+    // 8. å¯åŠ¨æœåŠ¡
     bResult = StartServiceA(schService, 0, NULL);
     dwResult = GetLastError();
     if (!bResult && dwResult != 1053)  goto _Exit;
 
-    // 9. »¹Ô­Â·¾¶
+    // 9. è¿˜åŸè·¯å¾„
     if (dwLpqscSize) {
         bResult = FALSE;
         bResult = ChangeServiceConfigA(schService, SERVICE_NO_CHANGE, SERVICE_DEMAND_START, SERVICE_ERROR_IGNORE, originalBinaryPath, NULL, NULL, NULL, NULL, NULL, NULL);
